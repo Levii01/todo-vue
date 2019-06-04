@@ -5,7 +5,6 @@ import store from './store';
 import firebase from 'firebase';
 
 Vue.config.productionTip = false;
-console.log('process', process.env)
 const config = {
   apiKey: process.env.VUE_APP_API_KEY,
   authDomain: '',
@@ -13,11 +12,10 @@ const config = {
   projectId: process.env.VUE_APP_PROJECT_ID,
   storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
   messagingSenderId: '',
-}
+};
 
-firebase.initializeApp(config)
-
-export const db = firebase.firestore()
+firebase.initializeApp(config);
+export const db = firebase.firestore();
 
 new Vue({
   router,

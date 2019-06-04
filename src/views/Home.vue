@@ -2,66 +2,67 @@
   <div class="home">
     <img alt="Vue logo" src="@/assets/logo.png" id="vue-logo">
     <div class="title">What do I need to do today?</div>
-    <input v-model="myTodo" /><button @click="addToDo">Add</button>
+    <input v-model="myTodo" placeholder="What I have todo.." /><button @click="addToDo">Add</button>
+
     <div v-if="errors !== ''" id="errors">{{ errors }}</div>
+
     <div v-if="this.$store.getters.getItems && this.$store.getters.getItems.length > 0">
       <div class="title">Today, you've go to do...</div>
  
      <div v-for="item in this.$store.getters.getItems" :key="item.id">
-       {{ item.title }}<br /><br /><small style="text-decoration:underline;" @click="deleteItem(item.id)">Delete</small>
-       <hr />
+       {{ item.title }}<small style="text-decoration:underline;" @click="deleteItem(item.id)">Delete</small>
      </div>
    </div>
   </div>
 </template>
 
 <script>
-import { db } from '@/main'
+import { db } from '@/main';
 
 export default {
   name: 'home',
-  beforeCreate: function () {
-    console.log('process2', process.env)
-    this.$store.dispatch('setItems')
+  beforeCreate: () => {
+    this.$store.dispatch('setItems');
   },
-  data: function () {
+  data: () => {
     return {
       myTodo: '',
-      errors: ''
-    }
+      errors: '',
+    };
   },
   methods: {
-    addToDo: function () {
-      this.errors = ''
+    addToDo: () => {
+      this.errors = '';
 
       if (this.myTodo !== '') {
         db.collection('items').add({
           title: this.myTodo,
-          created_at: Date.now()
+          created_at: Date.now(),
+          active: true,
         }).then((response) => {
           if (response) {
-            this.myTodo = ''
+            this.myTodo = '';
           }
         }).catch((error) => {
-          this.errors = error
-        })
+          this.errors = error;
+        });
       } else {
-        this.errors = 'Please enter some text'
+        this.errors = 'Please enter some text';
       }
     },
-    deleteItem: function (id) {
+    deleteItem: (id) => {
       if (id) {
-        db.collection("items").doc(id).delete().then(function() {
-          console.log('Document successfully deleted')
-        }).catch(function(error) {
-          this.error = error
-        })
+        db.collection('items').doc(id).delete().then(() => {
+          // console.log('Document successfully deleted');
+        }).catch((error) => {
+          this.error = error;
+        });
       } else {
-        this.error = 'Invalid ID'
+        this.error = 'Invalid ID';
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>
@@ -70,19 +71,27 @@ export default {
 }
 
 body, html, #app {
-  background:#8ac8e5;
+  background:#01d664;
 }
 
 .home {
-  width:300px;
+  background:#fff;
+  width:30rem;
   margin:auto;
+  padding: 13px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.home:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 #vue-logo {
   width:100px;
 }
 
-input, button {
+button {
   border:0;
   width:100%;
   margin:0 0 10px;
@@ -90,7 +99,34 @@ input, button {
 }
 
 input {
-  font-size:12px;
+  width:100%;
+  margin:0 0 10px;
+  padding:10px;
+  background-color: #f3f3f3;
+}
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
 }
 
 button {

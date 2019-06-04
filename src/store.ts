@@ -15,10 +15,8 @@ export default new Vuex.Store({
   },
   mutations: {
     setItems: (state) => {
-      let items = [];
-
       db.collection('items').orderBy('created_at').onSnapshot((snapshot) => {
-        items = [];
+        const items: any = [];
         snapshot.forEach((doc) => {
           items.push({ id: doc.id, title: doc.data().title });
         });
