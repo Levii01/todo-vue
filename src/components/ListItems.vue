@@ -16,10 +16,14 @@
 </template>
 
 <script lang="ts">
+import { db } from '@/main';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import * as $ from 'jquery';
 
 @Component({
+  props: {
+    method: { type: Function },
+  },
   name: 'ListItems',
   updated: function () {
     // Increments the delay on each item.
@@ -38,7 +42,20 @@ import * as $ from 'jquery';
         $('#myList').addClass('rolldown-list');
       }, 1);
     });
-  }
+  },
+  methods: {
+    deleteItem(id) {
+      if (id) {
+        db.collection('items').doc(id).delete().then(() => {
+          console.log('Document successfully deleted');
+        }).catch((error) => {
+          this.$emit('error', error);
+        });
+      } else {
+        this.$emit('error', 'Invalid ID');
+      }
+    },
+  },
 })
 export default class ListItems extends Vue {
   @Prop() private msg!: string;

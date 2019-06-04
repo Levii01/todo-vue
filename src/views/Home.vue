@@ -13,7 +13,7 @@
        {{ item.title }}<small style="text-decoration:underline;" @click="deleteItem(item.id)">Delete</small>
      </div>
    </div> -->
-     <list-items/>
+     <list-items @error="handleError" />
   </div>
 </template>
 
@@ -47,22 +47,14 @@ export default {
             this.myTodo = '';
           }
         }).catch((error) => {
-          this.errors = error;
+          this.handleError(error);
         });
       } else {
-        this.errors = 'Please enter some text';
+        this.handleError('Please enter some text');
       }
     },
-    deleteItem(id) {
-      if (id) {
-        db.collection('items').doc(id).delete().then(() => {
-          // console.log('Document successfully deleted');
-        }).catch((error) => {
-          this.error = error;
-        });
-      } else {
-        this.error = 'Invalid ID';
-      }
+    handleError(errorMessage) {
+      this.errors = errorMessage;
     },
   },
 };
