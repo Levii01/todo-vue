@@ -21,7 +21,7 @@ import { db } from '@/main';
 
 export default {
   name: 'home',
-  beforeCreate: () => {
+  beforeCreate () {
     this.$store.dispatch('setItems');
   },
   data: () => {
@@ -31,7 +31,7 @@ export default {
     };
   },
   methods: {
-    addToDo: () => {
+    addToDo () {
       this.errors = '';
 
       if (this.myTodo !== '') {
@@ -50,7 +50,7 @@ export default {
         this.errors = 'Please enter some text';
       }
     },
-    deleteItem: (id) => {
+    deleteItem (id) {
       if (id) {
         db.collection('items').doc(id).delete().then(() => {
           // console.log('Document successfully deleted');
