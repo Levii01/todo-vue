@@ -6,21 +6,24 @@
 
     <div v-if="errors !== ''" id="errors">{{ errors }}</div>
 
-    <div v-if="this.$store.getters.getItems && this.$store.getters.getItems.length > 0">
+    <!-- <div v-if="this.$store.getters.getItems && this.$store.getters.getItems.length > 0">
       <div class="title">Today, you've go to do...</div>
  
      <div v-for="item in this.$store.getters.getItems" :key="item.id">
        {{ item.title }}<small style="text-decoration:underline;" @click="deleteItem(item.id)">Delete</small>
      </div>
-   </div>
+   </div> -->
+     <list-items/>
   </div>
 </template>
 
 <script>
 import { db } from '@/main';
+import ListItems from '@/components/ListItems.vue';
 
 export default {
   name: 'home',
+  components: { ListItems },
   beforeCreate() {
     this.$store.dispatch('setItems');
   },

@@ -1,0 +1,115 @@
+<template>
+  <div class="list-items">
+    <div v-if="this.$store.getters.getItems && this.$store.getters.getItems.length > 0">
+
+      <div class="title">Today, you've go to do...</div>
+
+      <ul class="rolldown-list" id="myList">
+        <li v-for="item in this.$store.getters.getItems" :key="item.id">
+          <p class="item-text">{{ item.title }}</p>
+          <i style="text-decoration:underline;" @click="deleteItem(item.id)">Delete</i>
+        </li>
+      </ul> 
+
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import * as $ from 'jquery';
+
+@Component({
+  name: 'ListItems',
+  updated: function () {
+    // Increments the delay on each item.
+    $('.rolldown-list li').each(function () {
+      var delay = ($(this).index() / 4) + 's';
+      $(this).css({
+        webkitAnimationDelay: delay,
+        mozAnimationDelay: delay,
+        animationDelay: delay
+      });
+    });
+
+    $('#btnReload').click(function () {
+      $('#myList').removeClass('rolldown-list');
+      setTimeout(function () {
+        $('#myList').addClass('rolldown-list');
+      }, 1);
+    });
+  }
+})
+export default class ListItems extends Vue {
+  @Prop() private msg!: string;
+}
+</script>
+
+<style scoped>
+p.item-text {
+  color: #fff;
+}
+.rolldown-list {
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+
+.rolldown-list li {
+  padding: 1em;
+  margin-bottom: .125em;
+  display: block;
+  list-style: none;
+  text-transform: uppercase;
+}
+
+.rolldown-list li {
+  visibility: hidden;
+  animation: rolldown .7s 1;
+  transform-origin: 50% 0;
+  animation-fill-mode: forwards;
+}
+
+.rolldown-list li:nth-child(2n) {
+  background-color: #444;
+}
+
+.rolldown-list li:nth-child(2n+1) {
+  background-color: #333;
+}
+
+#myList {
+  position: absolute;
+  width: 50%; 
+  left: 50%;
+  margin-left: -25%;
+}
+
+#btnReload {
+  float: right;
+  color: #333;
+  background: #ccc;
+  text-transform: uppercase;
+  border: none;
+  padding: .5em 1em;
+}
+
+#btnReload:hover {
+  background: #ddd;
+}
+
+@keyframes rolldown {
+  0% {
+    visibility: visible;
+    transform: rotateX(180deg) perspective(500px);
+  }
+  70% {
+    visibility: visible;
+    transform: rotateX(-20deg);
+  }
+  100% {
+    visibility: visible;
+    transform: rotateX(0deg);
+  }
+}
+</style>
