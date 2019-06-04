@@ -3,20 +3,42 @@
     <img alt="Vue logo" src="@/assets/logo.png" id="vue-logo">
     <div class="title">What do I need to do today?</div>
     <input v-model="myTodo" /><button @click="addToDo">Add</button>
+    <div v-if="errors !== ''" id="errors">{{ errors }}</div>
   </div>
 </template>
 
 <script>
+import { db } from '@/main'
+
 export default {
   name: 'home',
+  beforeCreate: function () {
+    this.$store.dispatch('setItems')
+  },
   data: function () {
     return {
-      myTodo: ''
+      myTodo: '',
+      errors: ''
     }
   },
   methods: {
     addToDo: function () {
-      console.log('myTodo: ' + this.myTodo)
+      this.errors = ''
+
+      if (this.myTodo !== '') {
+        db.collection('items').add({
+          title: this.myTodo,
+          created_at: Date.now()
+        }).then((response) => {
+          if (response) {
+            this.myTodo = ''
+          }
+        }).catch((error) => {
+          this.errors = error
+        })
+      } else {
+        this.errors = 'Please enter some text'
+      }
     }
   }
 }
