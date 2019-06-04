@@ -21,6 +21,7 @@ import { db } from '@/main'
 export default {
   name: 'home',
   beforeCreate: function () {
+    console.log('process2', process.env)
     this.$store.dispatch('setItems')
   },
   data: function () {
@@ -46,6 +47,17 @@ export default {
         })
       } else {
         this.errors = 'Please enter some text'
+      }
+    },
+    deleteItem: function (id) {
+      if (id) {
+        db.collection("items").doc(id).delete().then(function() {
+          console.log('Document successfully deleted')
+        }).catch(function(error) {
+          this.error = error
+        })
+      } else {
+        this.error = 'Invalid ID'
       }
     }
   }
