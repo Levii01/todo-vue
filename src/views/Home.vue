@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home content-box">
     <img alt="Vue logo" src="@/assets/logo.png" id="vue-logo">
     <div class="title">What do I need to do today?</div>
     <input v-model="myTodo" placeholder="What I have todo.." /><button @click="addToDo">Add</button>
@@ -74,7 +74,7 @@ body, html, #app {
   background:#01d664;
 }
 
-.home {
+.content-box {
   background:#fff;
   width:30rem;
   margin:auto;
@@ -83,7 +83,7 @@ body, html, #app {
   transition: 0.3s;
 }
 
-.home:hover {
+.content-box:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
