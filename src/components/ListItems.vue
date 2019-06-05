@@ -6,8 +6,10 @@
 
       <ul class="rolldown-list" id="myList">
         <li v-for="item in this.$store.getters.getItems" :key="item.id">
-          <p class="item-text">{{ item.title }}</p>
-          <i style="text-decoration:underline;" @click="deleteItem(item.id)">Delete</i>
+          <div class="todo-item">
+            <span class="item-text">{{ item.title }}</span>
+            <span class="item-delete" style="text-decoration:underline;" @click="deleteItem(item.id)">Delete</span>
+          </div>
         </li>
       </ul> 
 
@@ -63,9 +65,20 @@ export default class ListItems extends Vue {
 </script>
 
 <style scoped>
-p.item-text {
+.todo-item {
+  display: inline-block; 
   color: #fff;
+  width: 100%;
 }
+.todo-item .item-text {
+  display: block;
+}
+
+.todo-item .item-delete {
+  display: block;
+  float: right;
+}
+
 .rolldown-list {
   text-align: left;
   padding: 0;
@@ -88,18 +101,20 @@ p.item-text {
 }
 
 .rolldown-list li:nth-child(2n) {
-  background-color: #444;
+  /* background-color: #24f886; */
+  background-color: #40b883;
 }
 
 .rolldown-list li:nth-child(2n+1) {
-  background-color: #333;
+  background-color: #02d664;
+  background-color: #35495e;
 }
 
 #myList {
-  position: absolute;
-  width: 50%; 
-  left: 50%;
-  margin-left: -25%;
+  /* position: absolute; */
+  /* width: 50%;  */
+  /* left: 50%; */
+  /* margin-left: -25%; */
 }
 
 #btnReload {

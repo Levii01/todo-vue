@@ -2,17 +2,11 @@
   <div class="home content-box">
     <img alt="Vue logo" src="@/assets/logo.png" id="vue-logo">
     <div class="title">What do I need to do today?</div>
-    <input v-model="myTodo" placeholder="What I have todo.." /><button @click="addToDo">Add</button>
-
+    <input v-model="myTodo" placeholder="What I have todo.." />
+    <button @click="addToDo">Add</button>
+    <button id="btnReload">Reload</button>
     <div v-if="errors !== ''" id="errors">{{ errors }}</div>
 
-    <!-- <div v-if="this.$store.getters.getItems && this.$store.getters.getItems.length > 0">
-      <div class="title">Today, you've go to do...</div>
- 
-     <div v-for="item in this.$store.getters.getItems" :key="item.id">
-       {{ item.title }}<small style="text-decoration:underline;" @click="deleteItem(item.id)">Delete</small>
-     </div>
-   </div> -->
      <list-items @error="handleError" />
   </div>
 </template>
